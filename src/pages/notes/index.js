@@ -4,36 +4,29 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import { useEffect,useState } from 'react'
 import NotesTable from 'src/@core/components/notes/NotesTable'
-import { set } from 'nprogress'
+import fetchAPI from 'src/lib/fetchApi'
 
-
-const MUITable = () => {
-    const url = 'http://localhost:5000/api/v1/notes';
-    const [notes, setNotes] = useState([]);
-    useEffect(()=>{
-        fetch(url)
-        .then(response=>response.json())
-        .then(res=>{
-            setNotes(res.data)
-        })
-        .catch(error =>{
-            console.log(error);
-        })
-    },[])        
+const MUITable = (props) => {        
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
           <CardHeader title='Notes Table' titleTypographyProps={{ variant: 'h6' }} />
-          {
-            notes&&<NotesTable notes={notes} />
-
-          }
+            <NotesTable notes={props.notes} />
         </Card>
       </Grid>
     </Grid>
   )
 }
+MUITable.getInitialProps = async (ctx) => {
+  try {
+    const res = await fetchAPI('/notes', { method: 'GET' });
+    return { notes: res.data };
+  } catch (error) {
+    console.log(error);
+    return { notes: [] }; // fallback value in case of error
+  }
+};
 
 export default MUITable
