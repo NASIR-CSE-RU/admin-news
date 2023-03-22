@@ -7,7 +7,6 @@ import NotesTable from 'src/@core/components/notes/NotesTable'
 import fetchAPI from 'src/lib/fetchApi'
 
 const MUITable = (props) => {        
-
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
