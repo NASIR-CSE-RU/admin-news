@@ -19,6 +19,7 @@ const MUITable = (props) => {
     </Grid>
   )
 }
+
 MUITable.getInitialProps = async (ctx) => {
   try {
     const res = await fetchAPI('/notes', { method: 'GET' });
